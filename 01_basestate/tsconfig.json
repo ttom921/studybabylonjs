@@ -1,0 +1,21 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "ES2015",
+        "module": "ES2015",
+        "sourceMap": true,
+        "outDir": "./dist",
+        "types": [
+            "babylonjs",
+            "babylonjs-gui",
+        ]
+    },
+    "include": [
+        "src/**/*",
+        "public/**/*",
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.js"
+    ]
+}

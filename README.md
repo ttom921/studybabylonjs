@@ -10,6 +10,7 @@
 npm init
 npm install --save-dev typescript webpack ts-loader webpack-cli
 npm install babylonjs --save
+npm install babylonjs-gui --save
 ```
 
 建立檔案`webpack.config.js`
@@ -52,7 +53,8 @@ module.exports = {
         "sourceMap": true,
         "outDir": "./dist",
         "types": [
-            "babylonjs"
+            "babylonjs",
+            "babylonjs-gui",
         ]
     },
     "include": [
@@ -64,7 +66,9 @@ module.exports = {
     ]
 }
 ```
+
 修改`package.json`
+
 ```json
 "scripts": {
     "build": "webpack",
@@ -72,7 +76,9 @@ module.exports = {
     "test": "echo \"Error: no test specified\" && exit 1"
 },
 ```
+
 建立`index.html`
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -91,13 +97,17 @@ module.exports = {
 </body>
 </html>
 ```
+
 建立`src`資料夾和`app.ts`
 
 tobuild
+
 ```
 npm run build
 ```
+
 自動
+
 ```
 npm run watch
 ```
