@@ -1,0 +1,31 @@
+{
+  "name": "01_firstScene",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --port 8080",
+    "start:dev": "webpack-dev-server --watch --mode=development --inline --port 8080"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.21.5",
+    "@babylonjs/core": "^6.4.1",
+    "@babylonjs/gui": "^6.4.1",
+    "@babylonjs/inspector": "^6.4.1",
+    "babel-loader": "^9.1.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.4",
+    "html-webpack-plugin": "^5.5.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "webpack": "^5.83.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0"
+  }
+}
