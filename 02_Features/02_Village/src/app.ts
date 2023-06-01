@@ -49,6 +49,8 @@ class App {
         const ground = this.buildGround(scene);
         const box = this.buildBox(scene);
         const roof = this.buildRoof(scene);
+        //const house = Mesh.MergeMeshes([box, roof]);
+        const house = Mesh.MergeMeshes([box, roof], true, false, null, false, true);
         return scene;
 
     }
@@ -63,7 +65,7 @@ class App {
         roof.scaling.y = 2;
         roof.rotation.z = Math.PI / 2;
         roof.position.y = 1.22;
-        return scene;
+        return roof;
     }
     private buildBox(scene: Scene) {
         const boxMat = new StandardMaterial("boxMat");
@@ -79,7 +81,7 @@ class App {
         const box = MeshBuilder.CreateBox("box", { width: 2, faceUV: faceUV, wrap: true });
         box.material = boxMat;
         box.position.y = 0.5;
-        return scene;
+        return box;
     }
     private buildGround(scene: Scene) {
         // color 
@@ -87,7 +89,7 @@ class App {
         groundMat.diffuseColor = new Color3(0, 1, 0);
         const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 });
         ground.material = groundMat;
-        return scene;
+        return ground;
     }
     private addBigHouse(canvas: HTMLCanvasElement, engine: Engine) {
         let scene = new Scene(engine);
