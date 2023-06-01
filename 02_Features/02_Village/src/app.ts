@@ -1,4 +1,4 @@
-import { ArcRotateCamera, Engine, HemisphericLight, Mesh, MeshBuilder, Scene, SceneLoader, Sound, Vector3 } from "@babylonjs/core";
+import { ArcRotateCamera, Color3, Engine, HemisphericLight, Mesh, MeshBuilder, Scene, SceneLoader, Sound, StandardMaterial, Texture, Tools, Vector3, Vector4 } from "@babylonjs/core";
 import { Inspector } from '@babylonjs/inspector';
 //import '../public/css/style.css'; // 使用 ESM 方式引入
 
@@ -8,7 +8,7 @@ class App {
 
         // initialize babylon scene and engine
         let engine = new Engine(canvas, true);
-        let scene = this.creatGroundWorld(canvas, engine);
+        let scene = this._createScene(canvas, engine);
 
 
         //hide/show the inspector
@@ -40,6 +40,216 @@ class App {
         });
 
     }
+    private _createScene(canvas: HTMLCanvasElement, engine: Engine) {
+        /**** Set camera and light *****/
+        let scene = new Scene(engine);
+        let camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 10, Vector3.Zero(), scene);
+        camera.attachControl(canvas, true);
+        let light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
+        const ground = this.buildGround(scene);
+        const box = this.buildBox(scene);
+        const roof = this.buildRoof(scene);
+        return scene;
+
+    }
+    private buildRoof(scene: Scene) {
+        //texture
+        const roofMat = new StandardMaterial("roofMat");
+        roofMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/roof.jpg");
+        //
+        const roof = MeshBuilder.CreateCylinder("roof", { diameter: 1.3, height: 1.2, tessellation: 3 });
+        roof.material = roofMat;
+        roof.scaling.x = 0.75;
+        roof.scaling.y = 2;
+        roof.rotation.z = Math.PI / 2;
+        roof.position.y = 1.22;
+        return scene;
+    }
+    private buildBox(scene: Scene) {
+        const boxMat = new StandardMaterial("boxMat");
+        boxMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/semihouse.png");
+        //texture
+        const faceUV = [];
+        faceUV[0] = new Vector4(0.6, 0.0, 1.0, 1.0); //rear face
+        faceUV[1] = new Vector4(0.0, 0.0, 0.4, 1.0); //front face
+        faceUV[2] = new Vector4(0.4, 0, 0.6, 1.0); //right side
+        faceUV[3] = new Vector4(0.4, 0, 0.6, 1.0); //left side
+        // top 4 and bottom 5 not seen so not set
+        // world objects
+        const box = MeshBuilder.CreateBox("box", { width: 2, faceUV: faceUV, wrap: true });
+        box.material = boxMat;
+        box.position.y = 0.5;
+        return scene;
+    }
+    private buildGround(scene: Scene) {
+        // color 
+        const groundMat = new StandardMaterial("groundMat");
+        groundMat.diffuseColor = new Color3(0, 1, 0);
+        const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 });
+        ground.material = groundMat;
+        return scene;
+    }
+    private addBigHouse(canvas: HTMLCanvasElement, engine: Engine) {
+        let scene = new Scene(engine);
+        let camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 10, Vector3.Zero(), scene);
+        camera.attachControl(canvas, true);
+        let light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
+
+        // material
+        // color 
+        const groundMat = new StandardMaterial("groundMat");
+        groundMat.diffuseColor = new Color3(0, 1, 0);
+
+        //texture
+        const roofMat = new StandardMaterial("roofMat");
+        roofMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/roof.jpg");
+        const boxMat = new StandardMaterial("boxMat");
+        boxMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/semihouse.png")
+
+        const faceUV = [];
+        faceUV[0] = new Vector4(0.6, 0.0, 1.0, 1.0); //rear face
+        faceUV[1] = new Vector4(0.0, 0.0, 0.4, 1.0); //front face
+        faceUV[2] = new Vector4(0.4, 0, 0.6, 1.0); //right side
+        faceUV[3] = new Vector4(0.4, 0, 0.6, 1.0); //left side
+        // top 4 and bottom 5 not seen so not set
+
+        // world objects
+        const box = MeshBuilder.CreateBox("box", { width: 2, faceUV: faceUV, wrap: true });
+        box.material = boxMat;
+        box.position.y = 0.5;
+        const roof = MeshBuilder.CreateCylinder("roof", { diameter: 1.3, height: 1.2, tessellation: 3 });
+        roof.material = roofMat;
+        roof.scaling.x = 0.75;
+        roof.scaling.y = 2;
+        roof.rotation.z = Math.PI / 2;
+        roof.position.y = 1.22;
+        const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 });
+        ground.material = groundMat;
+        return scene;
+
+    }
+    private addEachSize(canvas: HTMLCanvasElement, engine: Engine) {
+        let scene = new Scene(engine);
+        let camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 10, Vector3.Zero(), scene);
+        camera.attachControl(canvas, true);
+        let light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
+
+        // material
+        // color 
+        const groundMat = new StandardMaterial("groundMat");
+        groundMat.diffuseColor = new Color3(0, 1, 0);
+
+        //texture
+        const roofMat = new StandardMaterial("roofMat");
+        roofMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/roof.jpg");
+        const boxMat = new StandardMaterial("boxMat");
+        boxMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/cubehouse.png")
+
+        // options parameter to set different image on each side
+        const faceUV = [];
+        faceUV[0] = new Vector4(0.5, 0.0, 0.75, 1.0);//rear side
+        faceUV[1] = new Vector4(0.0, 0.0, 0.25, 1.0);//front side
+        faceUV[2] = new Vector4(0.25, 0, 0.5, 1.0);//right side
+        faceUV[3] = new Vector4(0.75, 0, 1.0, 1.0);//left side
+        //top 4 and bottom 5 not seen so nt set
+        // world objects
+        const box = MeshBuilder.CreateBox("box", { faceUV: faceUV, wrap: true });
+        box.material = boxMat;
+        box.position.y = 0.5;
+        const roof = MeshBuilder.CreateCylinder("roof", { diameter: 1.3, height: 1.2, tessellation: 3 });
+        roof.material = roofMat;
+        roof.scaling.x = 0.75;
+        roof.rotation.z = Math.PI / 2;
+        roof.position.y = 1.22;
+        const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 });
+        ground.material = groundMat;
+        return scene;
+    }
+    private addTexture(canvas: HTMLCanvasElement, engine: Engine) {
+        let scene = new Scene(engine);
+        let camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 10, Vector3.Zero(), scene);
+        camera.attachControl(canvas, true);
+        let light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
+
+        // material
+        // color 
+        const groundMat = new StandardMaterial("groundMat");
+        groundMat.diffuseColor = new Color3(0, 1, 0);
+
+        //texture
+        const roofMat = new StandardMaterial("roofMat");
+        roofMat.diffuseTexture = new Texture("https://assets.babylonjs.com/environments/roof.jpg");
+        const boxMat = new StandardMaterial("boxMat");
+        boxMat.diffuseTexture = new Texture("https://www.babylonjs-playground.com/textures/floor.png")
+
+        // world objects
+        const box = MeshBuilder.CreateBox("box", {});
+        box.material = boxMat;
+        box.position.y = 0.5;
+        const roof = MeshBuilder.CreateCylinder("roof", { diameter: 1.3, height: 1.2, tessellation: 3 });
+        roof.material = roofMat;
+        roof.scaling.x = 0.75;
+        roof.rotation.z = Math.PI / 2;
+        roof.position.y = 1.22;
+        const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 });
+        ground.material = groundMat;
+        return scene;
+    }
+    private createRoofMesh(canvas: HTMLCanvasElement, engine: Engine) {
+        let scene = new Scene(engine);
+        let camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 10, Vector3.Zero(), scene);
+        camera.attachControl(canvas, true);
+        let light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
+
+        const box = MeshBuilder.CreateBox("box", {});
+        box.position.y = 0.5;
+        const roof = MeshBuilder.CreateCylinder("roof", { diameter: 1.3, height: 1.2, tessellation: 3 });
+        roof.scaling.x = 0.75;
+        roof.rotation.z = Math.PI / 2;
+        roof.position.y = 1.22;
+        const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 });
+        return scene;
+
+    }
+    private createRotateMesh(canvas: HTMLCanvasElement, engine: Engine) {
+        let scene = new Scene(engine);
+        let camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 10, Vector3.Zero(), scene);
+        camera.attachControl(canvas, true);
+        let light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
+
+        const box = MeshBuilder.CreateBox("box", {});
+        box.position.y = 0.5;
+        //box.rotation.y = Math.PI / 4;
+        box.rotation.y = Tools.ToRadians(45);
+        const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 });
+        return scene;
+
+    }
+    private createPlaceNScaleMesh(canvas: HTMLCanvasElement, engine: Engine) {
+        let scene = new Scene(engine);
+        let camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 10, Vector3.Zero(), scene);
+        camera.attachControl(canvas, true);
+
+        let light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
+
+        let box1 = MeshBuilder.CreateBox("box1", { width: 2, height: 1.5, depth: 3 });
+        box1.position.y = 0.75;
+
+        const box2 = MeshBuilder.CreateBox("box2", {});
+        box2.scaling.x = 2;
+        box2.scaling.y = 1.5;
+        box2.scaling.z = 3;
+        box2.position = new Vector3(-3, 0.75, 0);
+
+        const box3 = MeshBuilder.CreateBox("box3", {});
+        box3.scaling = new Vector3(2, 1.5, 3);
+        box3.position.x = 3;
+        box3.position.y = 0.75;
+        box3.position.z = 0;
+
+        const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 });
+        return scene;
+    }
     private creatGroundWorld(canvas: HTMLCanvasElement, engine: Engine) {
         let scene = new Scene(engine);
         let camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 10, Vector3.Zero(), scene);
@@ -48,11 +258,11 @@ class App {
         const box = MeshBuilder.CreateBox("box", {}, scene);
         box.position.y = 0.5;
         const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 });
-        // Load the sound adn play ite automatically once resay
-        const music = new Sound("cello", "sounds/cellolong.wav", scene, null, { loop: true, autoplay: true });
-        // Load the sound, give it time to load and play it every 3 seconds
-        const bounce = new Sound("bounce", "sounds/bounce.wav", scene);
-        setInterval(() => bounce.play(), 3000);
+        // // Load the sound adn play ite automatically once resay
+        // const music = new Sound("cello", "sounds/cellolong.wav", scene, null, { loop: true, autoplay: true });
+        // // Load the sound, give it time to load and play it every 3 seconds
+        // const bounce = new Sound("bounce", "sounds/bounce.wav", scene);
+        // setInterval(() => bounce.play(), 3000);
         return scene;
     }
     // private loadMultipleModelModify(canvas: HTMLCanvasElement, engine: Engine) {
@@ -89,15 +299,7 @@ class App {
     //     return scene;
 
     // }
-    private playground01(canvas: HTMLCanvasElement, engine: Engine) {
-        let scene = new Scene(engine);
-        let camera: ArcRotateCamera = new ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2.5, 3, Vector3.Zero(), scene);
-        camera.attachControl(canvas, true);
-        let light1: HemisphericLight = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
 
-        const box = MeshBuilder.CreateBox("box", {}, scene);
-        return scene;
-    }
     private _createCanvas() {
         //create ths canvas html element and attach it to the webpage
         let canvas = document.createElement("canvas");
