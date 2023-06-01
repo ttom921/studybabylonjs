@@ -46,16 +46,17 @@ class App {
         let camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, Vector3.Zero(), scene);
         camera.attachControl(canvas, true);
         let light = new HemisphericLight("light", new Vector3(1, 1, 0), scene);
-
-
-
         //
-        const ground = this.buildGround(scene);
-        const mulithouses = this.createMultiHouse();
+        this.loadHousemesh();
         return scene;
 
     }
-    private createMultiHouse() {
+    private loadHousemesh() {
+        SceneLoader.ImportMeshAsync("", "meshes/", "village.glb");
+
+    }
+    private buildDwellings() {
+        const ground = this.buildGround();
         const detached_hourse = this.buildHouse(1);
         detached_hourse.rotation.y = -Math.PI / 16;
         detached_hourse.position.x = -6.8;
@@ -146,7 +147,7 @@ class App {
         return box;
     }
 
-    private buildGround(scene: Scene) {
+    private buildGround() {
         // color 
         const groundMat = new StandardMaterial("groundMat");
         groundMat.diffuseColor = new Color3(0, 1, 0);
