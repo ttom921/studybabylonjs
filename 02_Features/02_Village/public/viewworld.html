@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.babylonjs.com/viewer/babylon.viewer.js"></script>
+    <script>
+        BabylonViewer.viewerManager.getViewerPromiseById('myViewer').then((viewer) => {
+            viewer.onSceneInitObservable.add(() => {
+                viewer.sceneManager.camera.radius = 15; //set camera radius
+                viewer.sceneManager.camera.beta = Math.PI / 2.2; //angle of depression
+            });
+            viewer.onEngineInitObservable.add((scene) => {
+                viewer.loadModel({
+                    url: "meshes/village.glb"
+                });
+            });
+        });
+    </script>
+    <title>viewworld</title>
+</head>
+
+<body>
+    <babylon id="myViewer" extends="minimal"></babylon>
+    <!-- <babylon model="meshes/scene.glb"></babylon> -->
+    <!-- <babylon model="meshes/village.glb"></babylon> -->
+</body>
+
+</html>
